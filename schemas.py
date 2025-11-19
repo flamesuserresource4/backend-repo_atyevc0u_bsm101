@@ -1,48 +1,67 @@
 """
-Database Schemas
+Database Schemas for Smart Ledger
 
-Define your MongoDB collection schemas here using Pydantic models.
-These schemas are used for data validation in your application.
+Each Pydantic model represents a MongoDB collection. The collection name
+is the lowercase of the class name.
 
-Each Pydantic model represents a collection in your database.
-Model name is converted to lowercase for the collection name:
-- User -> "user" collection
-- Product -> "product" collection
-- BlogPost -> "blogs" collection
+We partition all data by a per-device client_id (stored in the browser).
+This replaces third-party auth and keeps each user's data isolated.
 """
 
 from pydantic import BaseModel, Field
 from typing import Optional
+from datetime import datetime
 
-# Example schemas (replace with your own):
 
-class User(BaseModel):
+class Bankbalance(BaseModel):
     """
-    Users collection schema
-    Collection name: "user" (lowercase of class name)
+    Collection: "bankbalance"
+    One logical row per client_id (we upsert by client_id)
     """
-    name: str = Field(..., description="Full name")
-    email: str = Field(..., description="Email address")
-    address: str = Field(..., description="Address")
-    age: Optional[int] = Field(None, ge=0, le=120, description="Age in years")
-    is_active: bool = Field(True, description="Whether user is active")
+    client_id: str = Field(..., description="Anonymous client identifier")
+    amount: Optional[float] = Field(None, ge=0)
+    updated_at: Optional[datetime] = None
 
-class Product(BaseModel):
+
+class Expense(BaseModel):
     """
-    Products collection schema
-    Collection name: "product" (lowercase of class name)
+    Collection: "expense"
+    One logical row per client_id
     """
-    title: str = Field(..., description="Product title")
-    description: Optional[str] = Field(None, description="Product description")
-    price: float = Field(..., ge=0, description="Price in dollars")
-    category: str = Field(..., description="Product category")
-    in_stock: bool = Field(True, description="Whether product is in stock")
+    client_id: str
+    amount: Optional[float] = Field(None, ge=0)
+    month: Optional[str] = None
+    updated_at: Optional[datetime] = None
 
-# Add your own schemas here:
-# --------------------------------------------------
 
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+class Sale(BaseModel):
+    """
+    Collection: "sale"
+    One logical row per client_id
+    """
+    client_id: str
+    amount: Optional[float] = Field(None, ge=0)
+    updated_at: Optional[datetime] = None
+
+
+class Order(BaseModel):
+    """
+    Collection: "order"
+    One logical row per client_id
+    """
+    client_id: str
+    total_orders: Optional[int] = Field(None, ge=0)
+    pending: Optional[int] = Field(None, ge=0)
+    completed: Optional[int] = Field(None, ge=0)
+    updated_at: Optional[datetime] = None
+
+
+class Reminder(BaseModel):
+    """
+    Collection: "reminder"
+    One logical row per client_id
+    """
+    client_id: str
+    title: Optional[str] = None
+    due_date: Optional[str] = Field(None, description="YYYY-MM-DD")
+    updated_at: Optional[datetime] = None

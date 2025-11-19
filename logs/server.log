@@ -1,7 +1,17 @@
 INFO:     Will watch for changes in these directories: ['/home/workspace']
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [170] using StatReload
-INFO:     Started server process [172]
+INFO:     Started reloader process [248] using StatReload
+INFO:     Started server process [250]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     172.20.0.1:59792 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     172.20.0.1:58416 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     172.20.0.1:58408 - "GET /api/dashboard/3b595e76-6efa-426b-9e84-5bb60c97d8cd HTTP/1.1" 200 OK
+INFO:     172.20.0.1:47656 - "GET /api/dashboard/3b595e76-6efa-426b-9e84-5bb60c97d8cd HTTP/1.1" 200 OK
+INFO:     172.20.0.1:48476 - "OPTIONS /api/upsert/sales HTTP/1.1" 200 OK
+INFO:     172.20.0.1:48476 - "POST /api/upsert/sales HTTP/1.1" 200 OK
+INFO:     172.20.0.1:48478 - "OPTIONS /api/upsert/bank_balance HTTP/1.1" 200 OK
+INFO:     172.20.0.1:48476 - "POST /api/upsert/bank_balance HTTP/1.1" 200 OK
+INFO:     172.20.0.1:48476 - "OPTIONS /api/upsert/expenses HTTP/1.1" 200 OK
+INFO:     172.20.0.1:48478 - "POST /api/upsert/expenses HTTP/1.1" 200 OK
+INFO:     172.20.0.1:48478 - "OPTIONS /api/upsert/orders HTTP/1.1" 200 OK
+INFO:     172.20.0.1:48476 - "POST /api/upsert/orders HTTP/1.1" 200 OK
